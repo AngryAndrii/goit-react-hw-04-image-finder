@@ -1,37 +1,31 @@
-import { Component } from 'react';
 import { StyledForm } from './Searchbar.styled';
+import { useState } from 'react';
 
-export class Searchbar extends Component {
-  state = {
-    inputValue: '',
+export const Searchbar = ({ changeQuery }) => {
+  const [inputValue, setinputValue] = useState('');
+
+  const handleChangeInput = event => {
+    const value = event.target.value;
+    setinputValue(value);
   };
 
-  handleChangeInput = ({ target }) => {
-    const { value } = target;
-    this.setState({
-      inputValue: value,
-    });
-  };
-
-  makeQuery = event => {
+  const makeQuery = event => {
     event.preventDefault();
-    this.props.changeQuery(this.state.inputValue);
+    changeQuery(inputValue);
   };
 
-  render() {
-    return (
-      <StyledForm onSubmit={this.makeQuery}>
-        <input
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-          onChange={this.handleChangeInput}
-        />
-        <button type="submit">
-          <span>Search</span>
-        </button>
-      </StyledForm>
-    );
-  }
-}
+  return (
+    <StyledForm onSubmit={makeQuery}>
+      <input
+        type="text"
+        autoComplete="off"
+        autoFocus
+        placeholder="Search images and photos"
+        onChange={handleChangeInput}
+      />
+      <button type="submit">
+        <span>Search</span>
+      </button>
+    </StyledForm>
+  );
+};
